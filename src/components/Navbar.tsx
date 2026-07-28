@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/logo.png.asset.json";
 import { OrderCta } from "./OrderCta";
 
 const NAV = [
@@ -33,7 +32,11 @@ export function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-cream/85 backdrop-blur-md hairline-b" : "bg-transparent"
+        open
+          ? "bg-cream" // Removes blur and containing block issue when menu is open
+          : scrolled
+          ? "bg-cream/85 backdrop-blur-md hairline-b"
+          : "bg-transparent"
       }`}
     >
       <nav
@@ -42,7 +45,7 @@ export function Navbar() {
       >
         <Link to="/" className="flex shrink-0 items-center gap-3" aria-label="Falooda Club home">
           <img
-            src={logo.url}
+            src="https://falooda-club.com/Falooda%20club.png"
             alt="Falooda Club"
             width={140}
             height={90}
