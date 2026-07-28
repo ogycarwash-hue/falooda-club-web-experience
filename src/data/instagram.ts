@@ -1,27 +1,14 @@
-/**
- * Instagram grid for @faloodaclubuae.
- *
- * Images only — no invented captions or engagement numbers. Every tile links
- * to the real profile.
- *
- * ─── Upgrade path to live Instagram embeds ─────────────────────────────
- *   1. Provide 6–9 post permalinks (https://www.instagram.com/p/…) and set
- *      them as `permalink` on each post below.
- *   2. Add <script async src="//www.instagram.com/embed.js"></script>
- *      to the head in src/routes/__root.tsx.
- *   3. Swap each tile for <blockquote class="instagram-media" …/> and call
- *      window.instgrm?.Embeds.processEmbeds() on mount.
- * ────────────────────────────────────────────────────────────────────────
- */
-import featured from "@/assets/featured-faloodas.jpg";
-import hero from "@/assets/hero-falooda.jpg";
-import milkshake from "@/assets/milkshake.jpg";
-import lassi from "@/assets/lassi.jpg";
-import sundae from "@/assets/sundae.jpg";
-import mojito from "@/assets/mojito.jpg";
-import fruit from "@/assets/fruit-salad.jpg";
-import burger from "@/assets/burger.jpg";
-import juices from "@/assets/juices.jpg";
+import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    instgrm?: {
+      Embeds: {
+        processEmbeds: () => void;
+      };
+    };
+  }
+}
 
 export const IG_PROFILE = {
   handle: "faloodaclubuae",
@@ -29,55 +16,77 @@ export const IG_PROFILE = {
 };
 
 export type IGPost = {
-  image: string;
-  alt: string;
-  permalink?: string;
+  permalink: string;
 };
 
 export const IG_POSTS: IGPost[] = [
-  { 
-    image: hero, 
-    alt: "Strawberry falooda",
-    permalink: "https://www.instagram.com/p/DWY3r-CjC8f/?hl=en"
-  },
-  { 
-    image: featured, 
-    alt: "Falooda line-up",
-    permalink: "https://www.instagram.com/p/DYPFFj1MPcD/?hl=en"
-  },
-  { 
-    image: milkshake, 
-    alt: "Crush milkshake",
-    permalink: "https://www.instagram.com/p/DaDOIGrszXw/?hl=en"
-  },
-  { 
-    image: lassi, 
-    alt: "Mango lassi",
-    permalink: "https://www.instagram.com/p/DX2K1YLMtMP/?hl=en"
-  },
-  { 
-    image: mojito, 
-    alt: "Watermelon mojito",
-    permalink: "https://www.instagram.com/p/DbIkCo1scr9/?hl=en"
-  },
-  { 
-    image: sundae, 
-    alt: "Chocolate sundae",
-    permalink: "https://www.instagram.com/p/DaaEJYFsJ1g/?hl=en"
-  },
-  { 
-    image: fruit, 
-    alt: "Fruit salad with ice cream",
-    permalink: "https://www.instagram.com/p/DXtmxXODI5P/?hl=en"
-  },
-  { 
-    image: burger, 
-    alt: "Burger meal",
-    permalink: "https://www.instagram.com/p/DZfCxQGMPNi/?hl=en"
-  },
-  { 
-    image: juices, 
-    alt: "Fresh juices",
-    permalink: "https://www.instagram.com/p/DOn0CHND2VB/?hl=en"
-  },
+  { permalink: "https://www.instagram.com/p/DWY3r-CjC8f/" },
+  { permalink: "https://www.instagram.com/p/DYPFFj1MPcD/" },
+  { permalink: "https://www.instagram.com/p/DaDOIGrszXw/" },
+  { permalink: "https://www.instagram.com/p/DX2K1YLMtMP/" },
+  { permalink: "https://www.instagram.com/p/DbIkCo1scr9/" },
+  { permalink: "https://www.instagram.com/p/DaaEJYFsJ1g/" },
+  { permalink: "https://www.instagram.com/p/DXtmxXODI5P/" },
+  { permalink: "https://www.instagram.com/p/DZfCxQGMPNi/" },
+  { permalink: "https://www.instagram.com/p/DOn0CHND2VB/" },
 ];
+
+export function InstagramGrid() {
+  useEffect(() => {
+    // Process embeds if the Instagram script is already loaded
+    if (window.instgrm) {
+      window.instgrm.Embeds.processEmbeds();
+      return;
+    }
+
+    // Otherwise, inject the embed script dynamically
+    const scriptId = "instagram-embed-script";
+    let script = document.getElementById(scriptId) as HTMLScriptElement;
+
+    if (!script) {
+      script = document.createElement("script");
+      script.id = scriptId;
+      script.src = "//www.instagram.com/embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
+    script.onload = () => {
+      window.instgrm?.Embeds.processEmbeds();
+    };
+  }, []);
+
+  return (
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {IG_POSTS.map((post) => (
+        <div key={post.permalink} className="flex justify-center overflow-hidden">
+          <blockquote
+            className="instagram-media"
+            data-instgrm-permalink={post.permalink}
+            data-instgrm-version="14"
+            style={{
+              background: "#FFF",
+              border: 0,
+              borderRadius: "12px",
+              boxShadow: "0 0 1px 0 rgba(0,0,0,0.15), 0 1px 10px 0 rgba(0,0,0,0.1)",
+              margin: "1px",
+              maxWidth: "540px",
+              minWidth: "326px",
+              padding: 0,
+              width: "calc(100% - 2px)",
+            }}
+          >
+            <a
+              href={post.permalink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-4 text-center text-sm text-ink/60 hover:underline"
+            >
+              View post on Instagram
+            </a>
+          </blockquote>
+        </div>
+      ))}
+    </div>
+  );
+}
