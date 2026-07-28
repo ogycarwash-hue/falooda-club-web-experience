@@ -35,13 +35,49 @@ export type IGPost = {
 };
 
 export const IG_POSTS: IGPost[] = [
-  { image: hero, alt: "Strawberry falooda" },
-  { image: featured, alt: "Falooda line-up" },
-  { image: milkshake, alt: "Crush milkshake" },
-  { image: lassi, alt: "Mango lassi" },
-  { image: mojito, alt: "Watermelon mojito" },
-  { image: sundae, alt: "Chocolate sundae" },
-  { image: fruit, alt: "Fruit salad with ice cream" },
-  { image: burger, alt: "Burger meal" },
-  { image: juices, alt: "Fresh juices" },
+  { 
+    image: hero, 
+    alt: "Strawberry falooda",
+    permalink: "https://www.instagram.com/p/DWY3r-CjC8f/?hl=en"
+  },
+  { 
+    image: featured, 
+    alt: "Falooda line-up",
+    permalink: "https://www.instagram.com/p/DYPFFj1MPcD/?hl=en"
+  },
+  { 
+    image: milkshake, 
+    alt: "Crush milkshake",
+    permalink: "https://www.instagram.com/p/DaDOIGrszXw/?hl=en"
+  },
+  { 
+    image: lassi, 
+    alt: "Mango lassi",
+    permalink: "https://www.instagram.com/p/DX2K1YLMtMP/?hl=en"
+  },
+  { 
+    image: mojito, 
+    alt: "Watermelon mojito",
+    permalink: "https://www.instagram.com/p/DbIkCo1scr9/?hl=en"
+  },
+  { 
+    image: sundae, 
+    alt: "Chocolate sundae",
+    permalink: "https://www.instagram.com/p/DaaEJYFsJ1g/?hl=en"
+  },
+  { 
+    image: fruit, 
+    alt: "Fruit salad with ice cream",
+    permalink: "https://www.instagram.com/p/DXtmxXODI5P/?hl=en"
+  },
+  { 
+    image: burger, 
+    alt: "Burger meal",
+    permalink: "https://www.instagram.com/p/DZfCxQGMPNi/?hl=en"
+  },
+  { 
+    image: juices, 
+    alt: "Fresh juices",
+    permalink: "https://www.instagram.com/p/DOn0CHND2VB/?hl=en"
+  },
 ];
