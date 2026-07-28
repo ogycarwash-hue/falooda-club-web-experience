@@ -4,8 +4,8 @@ import { Search, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { CATEGORIES, MENU } from "@/data/menu";
 import { MenuCard } from "@/components/MenuCard";
-import { SectionHeading } from "@/components/SectionHeading";
-import { OrderCta } from "@/components/OrderCta";
+import { CategoryTiles } from "@/components/CategoryTiles";
+
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
