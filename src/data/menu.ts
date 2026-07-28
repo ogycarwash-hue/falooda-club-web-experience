@@ -34,9 +34,9 @@ export const CATEGORIES = [
 
 export const MENU: MenuItem[] = [
   // Faloodas
-  { name: "Pista Falooda", arabic: "فالودة فستق", price: "15", category: "Faloodas", tags: ["signature", "bestseller"], desc: "Rose syrup, vermicelli, basil seeds, pistachio kulfi." },
-  { name: "Strawberry Falooda", arabic: "فالودة فراولة", price: "15", category: "Faloodas", tags: ["signature", "bestseller"], desc: "Fresh strawberry, rose milk, ice cream scoop." },
-  { name: "Mango Falooda", arabic: "فالودة مانجو", price: "15", category: "Faloodas", tags: ["signature", "bestseller"], desc: "Alphonso mango pulp, kulfi, saffron." },
+  { name: "Pista Falooda", arabic: "فالودة فستق", price: "15", category: "Faloodas", tags: ["signature", "bestseller"] },
+  { name: "Strawberry Falooda", arabic: "فالودة فراولة", price: "15", category: "Faloodas", tags: ["signature", "bestseller"] },
+  { name: "Mango Falooda", arabic: "فالودة مانجو", price: "15", category: "Faloodas", tags: ["signature", "bestseller"] },
 
   // Fresh Juices
   { name: "Mango Juice", arabic: "مانجو", category: "Fresh Juices" },

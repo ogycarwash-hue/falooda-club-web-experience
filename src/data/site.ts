@@ -23,26 +23,18 @@ export const SITE = {
 export const FAQ = [
   {
     q: "Where are you located?",
-    a: "We're at Port Saeed, Clock Tower — behind Danata, near Al Bassam Center in Dubai. Easy walk from Deira City Centre metro.",
+    a: "Port Saeed, Clock Tower — behind Danata, near Al Bassam Center, Dubai.",
+  },
+  {
+    q: "What are your hours?",
+    a: "Every day, 8:00 AM to 2:00 AM.",
   },
   {
     q: "Do you deliver?",
-    a: "Yes! Order through Talabat, Noon Food, or Smiles across Dubai — or call us for direct delivery in the neighborhood.",
+    a: "Yes — via Talabat, Noon Food and Smiles.",
   },
   {
     q: "Is the food halal?",
-    a: "100%. Every meat item on our menu is certified halal.",
-  },
-  {
-    q: "Do you offer vegetarian options?",
-    a: "Absolutely — veg burgers, veg clubs, veg wraps, falafel, and every single juice, lassi, falooda and dessert on the menu.",
-  },
-  {
-    q: "What are your opening hours?",
-    a: "We're open daily from 8:00 AM to 2:00 AM. Late-night faloodas are our specialty.",
-  },
-  {
-    q: "Do you cater for events?",
-    a: "We handle party meals, corporate orders and neighborhood events. Give us a ring on 054 568 6768.",
+    a: "Yes. All meat items are halal.",
   },
 ];
