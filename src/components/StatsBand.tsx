@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "motion/react";
 
 const STATS = [
-  { value: 2019, label: "Serving since", format: (n: number) => String(n) },
-  { value: 120, label: "Items on the menu", format: (n: number) => `${n}+` },
-  { value: 2, label: "Open till (AM)", format: (n: number) => `${n} AM` },
+  { value: 2019, label: "Serving since", format: (n: number) => String(n), still: true },
+  { value: 120, label: "Items on the menu", format: (n: number) => `${n}+`, still: false },
+  { value: 2, label: "Open till (AM)", format: (n: number) => `${n} AM`, still: true },
 ];
 
 function Counter({
@@ -46,7 +46,11 @@ export function StatsBand() {
       {STATS.map((s) => (
         <div key={s.label} className="px-6 py-10 text-center sm:py-14">
           <p className="font-display text-5xl font-medium tabular text-cream sm:text-7xl">
-            <Counter value={s.value} format={s.format} play={inView} />
+            {s.still ? (
+              s.format(s.value)
+            ) : (
+              <Counter value={s.value} format={s.format} play={inView} />
+            )}
           </p>
           <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.24em] text-cream/60">
             {s.label}

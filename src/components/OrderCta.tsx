@@ -2,7 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown, ArrowUpRight } from "lucide-react";
 import { SITE } from "@/data/site";
 
-export function OrderCta({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+export function OrderCta({
+  size = "md",
+  tone = "dark",
+}: {
+  size?: "sm" | "md" | "lg";
+  tone?: "dark" | "light";
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -28,7 +34,7 @@ export function OrderCta({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className={`inline-flex ${sizes[size]} items-center justify-center gap-2 rounded-full bg-ink font-medium text-cream transition-colors hover:bg-accent-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream`}
+        className={`inline-flex ${sizes[size]} items-center justify-center gap-2 rounded-full font-medium transition-colors ${tone === "light" ? "bg-cream text-ink hover:bg-accent-orange hover:text-cream" : "bg-ink text-cream hover:bg-accent-orange"} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream`}
       >
         Order online
         <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />

@@ -85,7 +85,7 @@ function Hero() {
           className="h-full w-full object-cover"
         />
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/50 to-ink/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/60 to-ink/20" />
 
       <div className="relative z-10 flex h-full items-center">
         <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
@@ -114,7 +114,7 @@ function Hero() {
             transition={{ duration: 0.9, delay: 0.22, ease: EASE }}
             className="mt-9 flex flex-wrap items-center gap-3"
           >
-            <OrderCta size="lg" />
+            <OrderCta size="lg" tone="light" />
             <Link
               to="/menu"
               className="inline-flex h-14 items-center justify-center gap-1.5 rounded-full border border-cream/35 px-7 text-sm font-medium text-cream transition-colors hover:bg-cream hover:text-ink"
