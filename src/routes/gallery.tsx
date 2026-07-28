@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { X } from "lucide-react";
-import { SectionHeading } from "@/components/SectionHeading";
 import hero from "@/assets/hero-falooda.jpg";
 import featured from "@/assets/featured-faloodas.jpg";
 import spread from "@/assets/gallery-spread.jpg";
@@ -32,16 +31,16 @@ export const Route = createFileRoute("/gallery")({
 
 // Editorial masonry — mix of aspect ratios, no busy spans
 const IMAGES = [
-  { src: hero, alt: "Strawberry falooda glass", ratio: "aspect-[3/4]", caption: "Strawberry Falooda" },
-  { src: featured, alt: "Three faloodas lined up", ratio: "aspect-[4/3]", caption: "The signature trio" },
-  { src: milkshake, alt: "Nutella crush milkshake", ratio: "aspect-square", caption: "Nutella Crush" },
-  { src: lassi, alt: "Mango lassi", ratio: "aspect-[4/5]", caption: "Mango Lassi" },
-  { src: mojito, alt: "Watermelon mojito", ratio: "aspect-[3/4]", caption: "Watermelon Mojito" },
-  { src: sundae, alt: "Chocolate sundae", ratio: "aspect-square", caption: "Chocolate Sundae" },
-  { src: fruit, alt: "Fruit salad with ice cream", ratio: "aspect-[4/5]", caption: "Fruit Salad · Scoop" },
-  { src: burger, alt: "Zinker burger meal", ratio: "aspect-[4/3]", caption: "Zinker Burger" },
-  { src: juices, alt: "Fresh juice lineup", ratio: "aspect-[3/4]", caption: "Fresh Juices" },
-  { src: spread, alt: "Drinks flatlay", ratio: "aspect-[4/3]", caption: "The Falooda Club spread" },
+  { src: hero, alt: "Strawberry falooda glass", ratio: "aspect-[3/4]" },
+  { src: featured, alt: "Three faloodas lined up", ratio: "aspect-[4/3]" },
+  { src: milkshake, alt: "Nutella crush milkshake", ratio: "aspect-square" },
+  { src: lassi, alt: "Mango lassi", ratio: "aspect-[4/5]" },
+  { src: mojito, alt: "Watermelon mojito", ratio: "aspect-[3/4]" },
+  { src: sundae, alt: "Chocolate sundae", ratio: "aspect-square" },
+  { src: fruit, alt: "Fruit salad with ice cream", ratio: "aspect-[4/5]" },
+  { src: burger, alt: "Zinker burger meal", ratio: "aspect-[4/3]" },
+  { src: juices, alt: "Fresh juice lineup", ratio: "aspect-[3/4]" },
+  { src: spread, alt: "Drinks flatlay", ratio: "aspect-[4/3]" },
 ];
 
 function Gallery() {
@@ -51,14 +50,12 @@ function Gallery() {
     <div>
       <section className="pt-16 sm:pt-24">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
-          <SectionHeading
-            index="§ Gallery"
-            eyebrow="Photographs, generously"
-            title={<>Textures, colours, <em className="display-italic">tiny moments.</em></>}
-            description="A visual index of Falooda Club — hand-composed and photographed in the café."
-          />
+          <h1 className="font-display text-5xl font-medium leading-none text-ink sm:text-7xl">
+            Gallery
+          </h1>
         </div>
       </section>
+
 
       <section className="py-16 sm:py-24">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
@@ -79,12 +76,6 @@ function Gallery() {
                       className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
                     />
                   </div>
-                  <figcaption className="mt-3 flex items-baseline justify-between gap-3 text-[11px]">
-                    <span className="font-mono tabular text-ink/40">
-                      Fig. {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="font-display italic text-ink/70">{img.caption}</span>
-                  </figcaption>
                 </figure>
               </button>
             ))}
@@ -112,12 +103,6 @@ function Gallery() {
               alt={IMAGES[lightbox].alt}
               className="max-h-[85vh] w-auto object-contain"
             />
-            <figcaption className="mt-4 flex items-baseline justify-between gap-4 text-xs text-cream/70">
-              <span className="font-mono tabular">
-                Fig. {String(lightbox + 1).padStart(2, "0")}
-              </span>
-              <span className="font-display italic">{IMAGES[lightbox].caption}</span>
-            </figcaption>
           </figure>
         </div>
       )}

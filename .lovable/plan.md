@@ -1,78 +1,44 @@
 ## Goal
 
-Move the site from a templated, AI-generated feel to something that reads as an intentional, agency-crafted brand experience, and integrate the real Instagram presence for @faloodaclubuae.
+The site currently reads like AI wrote it: invented tasting notes ("basil seeds soaked at sunrise"), fake museum captions ("Fig. 01"), fabricated Instagram captions with made-up like counts, fabricated reviews, and long paragraphs everywhere. FiLLi Cafe's site does the opposite — huge product photography, three-to-eight word headlines, one short factual sentence, then buttons. That is the target.
 
-## Design direction: Editorial Warmth
+## Principles applied everywhere
 
-One committed identity, applied consistently:
+1. **Copy budget.** Every section: one headline (max 6 words), optionally one factual sentence (max 20 words), one action. Nothing else.
+2. **Only verifiable facts.** Product names, prices, address, hours, phone, delivery partners. No invented ingredient poetry, no fake awards, no fake review quotes, no fake engagement numbers.
+3. **Image does the talking.** Photography gets the space that paragraphs currently occupy — full-bleed, large tiles, generous crops.
+4. **Motion is felt, not seen.** Slow parallax on hero imagery, image scale-in on scroll, hover crossfade/zoom on tiles, a paused-on-hover marquee, animated counters on the stats strip, sticky-scroll transitions. Consistent easing and duration; nothing bouncy, nothing on every element.
 
-- **Palette shift** — cream canvas `#faf6ee`, near-black ink `#1a1613`, brand orange used as a single hero accent, deep green as secondary. Retire the tri-color gradient hero blobs and the rainbow card backgrounds — they read as generic AI output.
-- **Typography** — pair **Fraunces** (display, italic optical size for headlines) with **Söhne-style neue-grotesk** (via **Inter Tight** or **General Sans**) for body. Real editorial hierarchy: oversized display, small-caps eyebrows, tight tracking on numerals, generous leading.
-- **Layout language** — asymmetric magazine grid, off-axis image placement, wide horizontal rules, index-style numbering ("01 — Signature"), left-aligned everything, no centered eyebrow chips. Card radius drops from `2rem`/`3rem` blobs to a restrained `12px` (0.75rem) with one hero element on `24px`. Retire glassmorphism entirely.
-- **Imagery** — full-bleed photography with generous negative space, black-and-white or duotone crossfades on secondary shots, real captions with location/date metadata.
-- **Motion** — quiet and purposeful: text mask reveals on scroll, horizontal marquee for menu categories, image parallax on hero, no bouncy `y: 20` fade-ups on every element. Motion via `motion/react` with a single shared spring.
-- **Micro-details that break the "AI" tell** — asymmetric section numbering, editorial pull-quotes, a running footer marquee, hand-written-style Arabic accents beside select headlines, a "Since 2019" wordmark lockup, structured spec tables in About/Locations.
+## Page-by-page
 
-## Instagram integration
+**Home** — reduce from 10 sections to 7:
+- Hero: full-bleed falooda photo with warm gradient wash, headline + one line + two buttons (Order Now / View Menu). Slow parallax, no "spec block" of stats, no corner caption card.
+- Category tiles: 3 large photo cards (Faloodas / Shakes & Juices / Broasted & Meals) — image, label, arrow on hover zoom. Replaces the numbered "01/02/03" tasting-note index.
+- Signature strip: horizontal scroll/marquee of product photos with name + price only. Replaces the zigzag with paragraph descriptions.
+- Stats band: 3 animated numbers (Since 2019, open till 2 AM, 60+ items) — no sentences.
+- Instagram: photo grid only, real handle header, "Follow" link. Remove all fabricated captions, like counts, comment counts.
+- Locations teaser: photo + address block + map link.
+- Order CTA: dark band, wordmark, delivery partner buttons.
+- Cut entirely: "Why Choose Us" spec table, the rotating fake review quote, the FAQ accordion (or keep a 4-item factual FAQ on Contact instead, answering only real logistics).
 
-Since no post URLs were supplied and no third-party widget account exists yet, ship the **curated IG-styled gallery** now and leave a clean upgrade path:
+**Menu** — image-led category grid at the top, then a clean price list; drop invented item descriptions, keep name + Arabic name + price.
 
-- Replace the current `InstagramFeed` with a proper Instagram-style module: 3-across on desktop / 2-across on mobile, square tiles, hover reveals caption + like/comment counts, "View on Instagram" overlay linking to `instagram.com/faloodaclubuae`, header with @handle, follower stat, bio line, and Follow button styled like IG's.
-- Use 9 of the generated food images as tiles with realistic captions (written to match Falooda Club's tone: emoji-light, location tags, product names in ALL CAPS).
-- Add a `src/data/instagram.ts` module so posts are one edit away from being replaced with real embeds later.
-- Document in a code comment how to swap to official `<blockquote class="instagram-media">` embeds once real post URLs are provided (script loader added to `__root.tsx` head, commented out until needed).
+**About** — one short brand statement (3 sentences maximum), then a photo grid. Remove the invented founder narrative and timeline unless you supply real dates.
 
-If the user later provides post URLs or a Behold/EmbedSocial key, we swap the data source without touching layout.
+**Gallery** — becomes the visual centrepiece: masonry with varied aspect ratios, lightbox, no captions.
 
-## Page-by-page changes
+**Locations / Contact** — factual only: address, hours table, phone, WhatsApp, map. No copy flourishes.
 
-**Home**
-- New hero: full-bleed editorial split — left column oversized Fraunces headline with italic accent word, small metadata block ("Est. 2019 · Port Saeed, Dubai · Open till 2am"), single primary CTA + text link. Right column single hero image with parallax, corner-pinned "Today's pour" caption card. Kill the three gradient blobs and the floating logo chip.
-- Featured Faloodas → numbered index list "01 / 02 / 03" with large image, name in Fraunces italic, tasting-note description, price as tabular figures.
-- Signature Desserts → asymmetric zigzag rows, alternating image side, pull-quote between rows.
-- Best Sellers → horizontal marquee that pauses on hover, ticker-style.
-- Why Choose → four-column spec table with hairline dividers, no icon cards on rounded backgrounds.
-- Reviews → single large rotating quote with source logo (Talabat/Google/Zomato), pagination dots, not a 3-up card grid.
-- Instagram → new module described above.
-- FAQ → left column heading sticky, right column accordion, no cream section background.
-- Final CTA → dark cream block with oversized wordmark, delivery partner logos as real inline SVG marks (not text placeholders).
+**Navbar / Footer** — trimmed to links + order CTA; footer keeps address, hours, socials, delivery partners.
 
-**Menu**
-- Sticky category rail on the left (desktop) / horizontal chip scroll (mobile), search input redesigned as a hairline underline input, results shown as editorial two-column list with price dot-leaders (`Pista Falooda ·············· AED 15`) rather than cards. Keep Arabic names as a smaller secondary line.
+## Technical notes
 
-**About** — long-form editorial: pull-quote hero, timeline strip, founder note, spec sidebar.
+- Reduce `src/routes/index.tsx` from ~600 lines to a lean set of section components; extract `CategoryTiles`, `ProductRail`, `StatsBand`, `PhotoGrid` into `src/components/`.
+- Strip the fake caption/like/comment fields from `src/data/instagram.ts`; keep image + permalink only.
+- Remove `REVIEWS` and (if FAQ is cut) `FAQ` from `src/data/site.ts`.
+- Keep the existing cream/ink/orange token system and Fraunces + Inter Tight pairing — that part already reads as designed, not generated.
+- Animations via `motion/react` with one shared transition constant, plus `useScroll` parallax on hero and gallery.
 
-**Gallery** — proper masonry with varied aspect ratios, lightbox on click.
+## What I need from you (optional)
 
-**Locations** — split layout: address block with structured metadata (hours as a table, phone as tabular numerals), map takes the full right side and bleeds off-canvas.
-
-**Contact** — one-column form, floating labels, inline validation, WhatsApp remains the submit target.
-
-**Navbar** — hairline border instead of glass blur; wordmark on left, links center, order CTA right. Mobile drawer becomes a full-screen editorial menu with large link type.
-
-**Footer** — running marquee wordmark on top edge, four columns with proper hierarchy, real social icons, "© Falooda Club 2026 — Crafted in Dubai" line.
-
-## Technical
-
-- Update `src/styles.css`: new color tokens (`--ink`, `--cream`, `--accent`), remove `--brand-gradient` usage from components, add `--font-display` / `--font-sans`, add `text-balance` and small-caps utilities, remove blob animation, add marquee + reveal keyframes.
-- Swap Google Fonts import in `__root.tsx` to Fraunces + Inter Tight.
-- New shared components: `EditorialHero`, `NumberedList`, `Marquee`, `PullQuote`, `SpecTable`, `InstagramGrid`, `DotLeader`.
-- New `src/data/instagram.ts` with 9 curated posts (image ref, caption, likes, comments, permalink → profile URL fallback).
-- Refactor all six route files to consume the new components. Keep menu data and site data unchanged.
-- Motion: single `useReducedMotion`-aware config; replace per-element `initial/animate/whileInView` scatter with a shared `<Reveal>` wrapper.
-- Accessibility: verified focus rings on the new hairline inputs and dark CTAs, aria labels on marquee (pause control), `prefers-reduced-motion` respected across marquee, parallax, and reveals.
-
-## What stays
-
-Menu items, prices, business info, WhatsApp CTA, delivery partner links, TanStack Start routing, motion/react.
-
-## Out of scope
-
-- Real live Instagram embeds (needs post URLs or a widget key from you — swap-in path is prepared).
-- Backend/CMS for editable content.
-- New photography beyond what's already generated.
-
-## Follow-up you can send anytime
-
-- Paste 6–9 Instagram post URLs to switch the grid to official embeds.
-- Share a Behold or EmbedSocial embed key if you'd rather auto-sync.
+Real photos of your actual products/store would lift this further than anything else — the current images are generated stand-ins. If you have an Instagram post list or a photo folder, drop it in and I'll wire the real assets instead.

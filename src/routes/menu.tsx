@@ -4,8 +4,8 @@ import { Search, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { CATEGORIES, MENU } from "@/data/menu";
 import { MenuCard } from "@/components/MenuCard";
-import { SectionHeading } from "@/components/SectionHeading";
-import { OrderCta } from "@/components/OrderCta";
+import { CategoryTiles } from "@/components/CategoryTiles";
+
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -56,18 +56,15 @@ function MenuPage() {
       {/* Header */}
       <section className="pt-14 sm:pt-20">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
-          <SectionHeading
-            index="§ Index"
-            eyebrow="The full menu"
-            title={<>Everything, <em className="display-italic">on one page.</em></>}
-            description="120+ items across faloodas, juices, shakes, sandwiches, shawarma and broasted meals. Prices in AED."
-          >
-            <div className="mt-4">
-              <OrderCta />
-            </div>
-          </SectionHeading>
+          <h1 className="font-display text-5xl font-medium leading-none text-ink sm:text-7xl">
+            Menu
+          </h1>
+          <div className="mt-8">
+            <CategoryTiles />
+          </div>
         </div>
       </section>
+
 
       {/* Search + filters */}
       <div className="sticky top-16 z-30 mt-14 border-y border-hairline bg-cream/90 backdrop-blur-md sm:top-20">
