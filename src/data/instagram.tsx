@@ -33,27 +33,27 @@ export const IG_POSTS: IGPost[] = [
 
 export function InstagramGrid() {
   useEffect(() => {
-    // Process embeds if the Instagram script is already loaded
-    if (window.instgrm) {
-      window.instgrm.Embeds.processEmbeds();
-      return;
-    }
+    const processIG = () => {
+      if (window.instgrm) {
+        window.instgrm.Embeds.processEmbeds();
+      }
+    };
 
-    // Otherwise, inject the embed script dynamically
-    const scriptId = "instagram-embed-script";
-    let script = document.getElementById(scriptId) as HTMLScriptElement;
+    let script = document.getElementById("instagram-embed-script") as HTMLScriptElement | null;
 
     if (!script) {
+      // 1. First time loading: Create script and explicitly use HTTPS
       script = document.createElement("script");
-      script.id = scriptId;
-      script.src = "//www.instagram.com/embed.js";
+      script.id = "instagram-embed-script";
+      script.src = "https://www.instagram.com/embed.js";
       script.async = true;
+      script.onload = processIG;
       document.body.appendChild(script);
+    } else {
+      // 2. Script already exists (e.g., navigating back to the page): 
+      // Use a slight delay to ensure React has fully attached the blockquotes to the DOM
+      setTimeout(processIG, 100);
     }
-
-    script.onload = () => {
-      window.instgrm?.Embeds.processEmbeds();
-    };
   }, []);
 
   return (
@@ -62,7 +62,7 @@ export function InstagramGrid() {
         <div key={post.permalink} className="flex justify-center overflow-hidden">
           <blockquote
             className="instagram-media"
-            data-instgrm-permalink={post.permalink}
+            data-instgrm-permalink={`${post.permalink}?utm_source=ig_embed`}
             data-instgrm-version="14"
             style={{
               background: "#FFF",
@@ -76,14 +76,16 @@ export function InstagramGrid() {
               width: "calc(100% - 2px)",
             }}
           >
-            <a
-              href={post.permalink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block p-4 text-center text-sm text-ink/60 hover:underline"
-            >
-              View post on Instagram
-            </a>
+            <div style={{ padding: "16px" }}>
+              <a
+                href={post.permalink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center text-sm text-ink/60 hover:underline"
+              >
+                View post on Instagram
+              </a>
+            </div>
           </blockquote>
         </div>
       ))}
