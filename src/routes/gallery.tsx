@@ -51,14 +51,12 @@ function Gallery() {
     <div>
       <section className="pt-16 sm:pt-24">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
-          <SectionHeading
-            index="§ Gallery"
-            eyebrow="Photographs, generously"
-            title={<>Textures, colours, <em className="display-italic">tiny moments.</em></>}
-            description="A visual index of Falooda Club — hand-composed and photographed in the café."
-          />
+          <h1 className="font-display text-5xl font-medium leading-none text-ink sm:text-7xl">
+            Gallery
+          </h1>
         </div>
       </section>
+
 
       <section className="py-16 sm:py-24">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
