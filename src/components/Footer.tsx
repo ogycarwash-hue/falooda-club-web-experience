@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook, ArrowUpRight } from "lucide-react";
-import logo from "@/assets/logo.png.asset.json";
 import { SITE } from "@/data/site";
 import { Marquee } from "./Marquee";
 
@@ -28,7 +27,11 @@ export function Footer() {
 
       <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-16 sm:px-8 md:grid-cols-12">
         <div className="md:col-span-5">
-          <img src={logo.url} alt="Falooda Club" className="h-12 w-auto brightness-110" />
+          <img 
+            src="https://falooda-club.com/Falooda%20club.png" 
+            alt="Falooda Club" 
+            className="h-12 w-auto brightness-110" 
+          />
           <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-cream/70">
             A Port Saeed dessert café serving the coldest faloodas, hand-pressed juices and
             late-night broasted comfort — every day, until 2 in the morning.
