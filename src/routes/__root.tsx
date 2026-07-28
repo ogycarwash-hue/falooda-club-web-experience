@@ -87,10 +87,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "Falooda Club" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { title: "Falooda Club — Faloodas, Juices & Broasted in Dubai" },
+      { property: "og:title", content: "Falooda Club — Faloodas, Juices & Broasted in Dubai" },
+      { name: "twitter:title", content: "Falooda Club — Faloodas, Juices & Broasted in Dubai" },
+      { name: "description", content: "Falooda Club, Port Saeed Dubai. Faloodas, fresh juices, milkshakes and broasted chicken. Open daily 8 AM – 2 AM. Delivery on Talabat, Noon and Smiles." },
+      { property: "og:description", content: "Falooda Club, Port Saeed Dubai. Faloodas, fresh juices, milkshakes and broasted chicken. Open daily 8 AM – 2 AM. Delivery on Talabat, Noon and Smiles." },
+      { name: "twitter:description", content: "Falooda Club, Port Saeed Dubai. Faloodas, fresh juices, milkshakes and broasted chicken. Open daily 8 AM – 2 AM. Delivery on Talabat, Noon and Smiles." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/2291700d-cdf8-4420-b5ca-21c951fe068b" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/2291700d-cdf8-4420-b5ca-21c951fe068b" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

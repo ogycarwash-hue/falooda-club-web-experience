@@ -24,10 +24,10 @@ export const Route = createFileRoute("/")({
         content:
           "Falooda Club, Port Saeed Dubai. Faloodas, fresh juices, milkshakes and broasted chicken. Open daily 8 AM – 2 AM. Delivery on Talabat, Noon and Smiles.",
       },
-      { property: "og:title", content: "Falooda Club — Port Saeed, Dubai" },
+      { property: "og:title", content: "Falooda Club — Faloodas, Juices & Broasted in Dubai" },
       {
         property: "og:description",
-        content: "Faloodas, juices, shakes and broasted meals. Open daily until 2 AM.",
+        content: "Falooda Club, Port Saeed Dubai. Faloodas, fresh juices, milkshakes and broasted chicken. Open daily 8 AM – 2 AM. Delivery on Talabat, Noon and Smiles.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
