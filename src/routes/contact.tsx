@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Send, Check, ArrowUpRight } from "lucide-react";
-import { SectionHeading } from "@/components/SectionHeading";
-import { SITE } from "@/data/site";
+import { SITE, FAQ } from "@/data/site";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -67,12 +66,9 @@ function Contact() {
     <div>
       <section className="pt-16 sm:pt-24">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
-          <SectionHeading
-            index="§ Contact"
-            eyebrow="Say hi"
-            title={<>Let's <em className="display-italic">talk.</em></>}
-            description="Catering, events, press or a plain hello — we read every message."
-          />
+          <h1 className="font-display text-5xl font-medium leading-none text-ink sm:text-7xl">
+            Contact
+          </h1>
         </div>
       </section>
 
@@ -118,10 +114,14 @@ function Contact() {
               </div>
             </dl>
 
-            <p className="mt-10 max-w-sm text-[13px] leading-relaxed text-muted-foreground">
-              For catering, party meals and corporate orders, WhatsApp gets the fastest reply —
-              usually within the hour, always the same day.
-            </p>
+            <dl className="mt-10 divide-y divide-hairline border-t border-hairline">
+              {FAQ.map((f) => (
+                <div key={f.q} className="py-4">
+                  <dt className="font-display text-base font-medium text-ink">{f.q}</dt>
+                  <dd className="mt-1 text-[14px] text-muted-foreground">{f.a}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           {/* Right: form */}
