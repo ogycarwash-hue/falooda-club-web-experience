@@ -24,12 +24,8 @@ export function MenuCard({ item }: { item: MenuItem }) {
             {item.arabic}
           </p>
         )}
-        {item.desc && (
-          <p className="mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
-            {item.desc}
-          </p>
-        )}
       </div>
+
       <div className="flex-1 dot-leader h-3" aria-hidden />
       <div className="shrink-0 text-right font-mono text-sm tabular text-ink">
         {item.price ? (
