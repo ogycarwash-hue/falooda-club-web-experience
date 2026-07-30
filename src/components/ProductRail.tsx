@@ -1,17 +1,16 @@
-import hero from "@/assets/hero-falooda.jpg";
-import milkshake from "@/assets/milkshake.jpg";
-import lassi from "@/assets/lassi.jpg";
-import sundae from "@/assets/sundae.jpg";
-import mojito from "@/assets/mojito.jpg";
-import fruit from "@/assets/fruit-salad.jpg";
+import { PHOTOS } from "@/data/photos";
 
 const RAIL = [
-  { image: hero, name: "Strawberry Falooda", price: "15" },
-  { image: milkshake, name: "Nutella Crush", price: "18" },
-  { image: lassi, name: "Mango Lassi", price: "10" },
-  { image: sundae, name: "Chocolate Sundae", price: "18" },
-  { image: mojito, name: "Watermelon Mojito", price: "12" },
-  { image: fruit, name: "Fruit Salad", price: "15" },
+  { image: PHOTOS.specialClub2, name: "Special Club Falooda" },
+  { image: PHOTOS.kulfi, name: "Kulfi Falooda" },
+  { image: PHOTOS.mango2, name: "Mango Falooda" },
+  { image: PHOTOS.arabic, name: "Arabic Falooda" },
+  { image: PHOTOS.blackberry, name: "Blackberry Falooda" },
+  { image: PHOTOS.avocado, name: "Avocado Falooda" },
+  { image: PHOTOS.nutellaCrepe, name: "Nutella Crepe" },
+  { image: PHOTOS.oreoBowl, name: "Oreo Bowl" },
+  { image: PHOTOS.tender, name: "Tender Coconut Falooda" },
+  { image: PHOTOS.strawberrySundae, name: "Strawberry Sundae" },
 ];
 
 function Card({ item }: { item: (typeof RAIL)[number] }) {
@@ -22,12 +21,11 @@ function Card({ item }: { item: (typeof RAIL)[number] }) {
           src={item.image}
           alt={item.name}
           loading="lazy"
-          className="aspect-[3/4] w-full object-cover transition-transform duration-[1200ms] ease-out group-hover/card:scale-[1.06]"
+          className="aspect-[3/4] w-full object-cover transition-transform duration-[1400ms] ease-out group-hover/card:scale-[1.07]"
         />
       </div>
-      <figcaption className="mt-3 flex items-baseline justify-between gap-3">
-        <span className="font-display text-base font-medium text-ink">{item.name}</span>
-        <span className="font-mono text-xs tabular text-ink/60">AED {item.price}</span>
+      <figcaption className="mt-3 font-display text-base font-medium text-ink">
+        {item.name}
       </figcaption>
     </figure>
   );
