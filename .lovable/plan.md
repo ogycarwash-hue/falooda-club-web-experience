@@ -1,44 +1,61 @@
-## Goal
+# Real photos, working Instagram grid, and a design pass
 
-The site currently reads like AI wrote it: invented tasting notes ("basil seeds soaked at sunrise"), fake museum captions ("Fig. 01"), fabricated Instagram captions with made-up like counts, fabricated reviews, and long paragraphs everywhere. FiLLi Cafe's site does the opposite — huge product photography, three-to-eight word headlines, one short factual sentence, then buttons. That is the target.
+## 1. Replace every generated image with your real photos
 
-## Principles applied everywhere
+`public/photos/` has 42 real shots. They fall into clear groups based on filename and content:
 
-1. **Copy budget.** Every section: one headline (max 6 words), optionally one factual sentence (max 20 words), one action. Nothing else.
-2. **Only verifiable facts.** Product names, prices, address, hours, phone, delivery partners. No invented ingredient poetry, no fake awards, no fake review quotes, no fake engagement numbers.
-3. **Image does the talking.** Photography gets the space that paragraphs currently occupy — full-bleed, large tiles, generous crops.
-4. **Motion is felt, not seen.** Slow parallax on hero imagery, image scale-in on scroll, hover crossfade/zoom on tiles, a paused-on-hover marquee, animated counters on the stats strip, sticky-scroll transitions. Consistent easing and duration; nothing bouncy, nothing on every element.
+- **Falooda flavours** — Classic, Kerala, Mumbai Style, Arabic, Mango, Strawberry, Blackberry, Blueberry, Avocado, Passion fruit, Kulfi, Tender, Special Club, Royal
+- **Store / brand** — `Falooda Club outside store view`, `Falooda Club Grand Opening`
+- **Food & dessert plates** — `DSC0…` series, `dessert.JPG`, WhatsApp shots (crepes, plated desserts, counter shots)
+- **Hotgrill line** — the `- Hotgrill` files
+- **Google review screenshots** — will NOT be used as photography (they're screenshots, not food shots)
 
-## Page-by-page
+Work:
+- Rename the files to clean web-safe slugs (`classic-falooda.jpg`, `store-front.jpg`, …) and keep them in `public/photos/` so they're served directly (no bundler import needed, and the folder stays easy for you to update).
+- Add `src/data/photos.ts` — a single named map of every photo with a real alt text, so images are picked by meaning, not by guessing paths in 6 different files.
+- Swap the real photos into: homepage hero (store or a hero falooda shot), `CategoryTiles`, `ProductRail`, `gallery`, `about`, and the `Visit` section.
+- Delete the AI-generated files in `src/assets/` (`hero-falooda.jpg`, `featured-faloodas.jpg`, `gallery-spread.jpg`, `milkshake.jpg`, `lassi.jpg`, `sundae.jpg`, `mojito.jpg`, `fruit-salad.jpg`, `juices.jpg`, `burger.jpg`). The logo pointer stays.
+- Menu items get matched to their actual photo where the name lines up (Classic, Kerala, Mumbai, Mango, Kulfi, Royal, Special Club, etc.).
 
-**Home** — reduce from 10 sections to 7:
-- Hero: full-bleed falooda photo with warm gradient wash, headline + one line + two buttons (Order Now / View Menu). Slow parallax, no "spec block" of stats, no corner caption card.
-- Category tiles: 3 large photo cards (Faloodas / Shakes & Juices / Broasted & Meals) — image, label, arrow on hover zoom. Replaces the numbered "01/02/03" tasting-note index.
-- Signature strip: horizontal scroll/marquee of product photos with name + price only. Replaces the zigzag with paragraph descriptions.
-- Stats band: 3 animated numbers (Since 2019, open till 2 AM, 60+ items) — no sentences.
-- Instagram: photo grid only, real handle header, "Follow" link. Remove all fabricated captions, like counts, comment counts.
-- Locations teaser: photo + address block + map link.
-- Order CTA: dark band, wordmark, delivery partner buttons.
-- Cut entirely: "Why Choose Us" spec table, the rotating fake review quote, the FAQ accordion (or keep a 4-item factual FAQ on Contact instead, answering only real logistics).
+## 2. Fix the blank Instagram grid
 
-**Menu** — image-led category grid at the top, then a clean price list; drop invented item descriptions, keep name + Arabic name + price.
+Cause: `src/routes/index.tsx` still renders `@/components/InstagramGrid`, the old component that reads a `post.image` field. Your rewritten embed version lives in `src/data/instagram.tsx` and is never rendered — so the section shows empty tiles.
 
-**About** — one short brand statement (3 sentences maximum), then a photo grid. Remove the invented founder narrative and timeline unless you supply real dates.
+Fix:
+- Move the embed component into `src/components/InstagramGrid.tsx` (component in components, data in data), delete the stale image-grid version, and keep `IG_POSTS` / `IG_PROFILE` in `src/data/instagram.tsx`.
+- Make the embed reliable: give each blockquote a stable key and re-run `instgrm.Embeds.processEmbeds()` after mount and on script load; render a fixed-height skeleton so the section doesn't collapse while embeds resolve.
+- Keep a visible fallback card (photo + "View on Instagram") if the embed script is blocked, so the section is never blank.
 
-**Gallery** — becomes the visual centrepiece: masonry with varied aspect ratios, lightbox, no captions.
+## 3. Footer clean-up
 
-**Locations / Contact** — factual only: address, hours table, phone, WhatsApp, map. No copy flourishes.
+- Remove "Crafted in Dubai · Port Saeed, Clock Tower".
+- Remove "Port Saeed · Dubai" from the footer marquee and replace the single-branch blurb with the three branches (Rigga, Abu Hail, Al Waraqa).
+- Footer "Visit" column lists all three branches with their addresses instead of one generic line.
 
-**Navbar / Footer** — trimmed to links + order CTA; footer keeps address, hours, socials, delivery partners.
+## 4. Design, layout and motion improvements
+
+Homepage
+- Hero: real store/product photo, slower parallax, subtle grain overlay, and a scroll cue. Headline mask-reveals line by line instead of a single fade.
+- Category tiles: taller editorial ratio, image scale + label slide on hover, staggered clip-path reveal on scroll.
+- Signatures rail: pause-on-hover already exists — add drag-to-scroll on touch, edge fade masks, and per-card lift.
+- Stats band: keep counters, tighten to a single hairline-divided row.
+- New section: three location cards with photo, branch name, and a Directions button (replaces the single-address Visit block).
+
+Site-wide
+- Sticky navbar that condenses on scroll (height + backdrop blur transition).
+- Page transition fade on route change, plus a scroll-progress hairline at the top.
+- Consistent reveal timing: one shared easing/duration token instead of ad-hoc values per component.
+- Respect `prefers-reduced-motion` everywhere.
+- Image treatment: blur-up placeholder + `aspect-ratio` boxes so nothing shifts while photos load.
+
+Gallery
+- Real photos in the masonry, keyboard-navigable lightbox (arrows + escape), and shared-element zoom into the lightbox.
+
+Menu
+- Each category header gets its real photo band; items with a matching photo show a small thumbnail.
 
 ## Technical notes
 
-- Reduce `src/routes/index.tsx` from ~600 lines to a lean set of section components; extract `CategoryTiles`, `ProductRail`, `StatsBand`, `PhotoGrid` into `src/components/`.
-- Strip the fake caption/like/comment fields from `src/data/instagram.ts`; keep image + permalink only.
-- Remove `REVIEWS` and (if FAQ is cut) `FAQ` from `src/data/site.ts`.
-- Keep the existing cream/ink/orange token system and Fraunces + Inter Tight pairing — that part already reads as designed, not generated.
-- Animations via `motion/react` with one shared transition constant, plus `useScroll` parallax on hero and gallery.
-
-## What I need from you (optional)
-
-Real photos of your actual products/store would lift this further than anything else — the current images are generated stand-ins. If you have an Instagram post list or a photo folder, drop it in and I'll wire the real assets instead.
+- Photos served from `public/photos/` by literal path; `src/data/photos.ts` is the single source of truth for path + alt.
+- No backend, data model, or copy invention — text stays factual and unchanged apart from the footer/branch fixes.
+- Instagram embeds load `https://www.instagram.com/embed.js` client-side; the fallback card covers ad-blockers and the preview iframe.
