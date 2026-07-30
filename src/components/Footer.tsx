@@ -85,10 +85,15 @@ export function Footer() {
 
         <div className="md:col-span-4 space-y-6 text-sm">
           <div>
-            <p className="eyebrow text-cream/50">Visit</p>
-            <p className="mt-3 leading-relaxed text-cream/80">{SITE.address}</p>
-            <p className="mt-2 text-cream/60 tabular">{SITE.hours}</p>
+            <p className="eyebrow text-cream/50">Branches</p>
+            <ul className="mt-3 space-y-1 text-cream/80">
+              {SITE.locations.map((l) => (
+                <li key={l.branch}>{l.branch}</li>
+              ))}
+            </ul>
+            <p className="mt-3 text-cream/60 tabular">{SITE.hours}</p>
           </div>
+
           <div>
             <p className="eyebrow text-cream/50">Call</p>
             <ul className="mt-3 space-y-1 tabular">
