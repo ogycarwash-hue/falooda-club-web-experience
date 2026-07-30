@@ -14,15 +14,19 @@ export function Footer() {
             Sip. Scoop. Smile.
           </span>
           <span className="font-display text-3xl font-medium text-cream/60 sm:text-5xl">
-            Falooda Club
-          </span>
-          <span className="font-display text-3xl italic font-medium text-cream/90 sm:text-5xl">
-            Port Saeed · Dubai
+            Rigga
           </span>
           <span className="font-display text-3xl font-medium text-cream/60 sm:text-5xl">
-            Since 2019
+            Abu Hail
+          </span>
+          <span className="font-display text-3xl font-medium text-cream/60 sm:text-5xl">
+            Al Waraqa
+          </span>
+          <span className="font-display text-3xl italic font-medium text-cream/90 sm:text-5xl">
+            Open till 2 AM
           </span>
         </Marquee>
+
       </div>
 
       <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-16 sm:px-8 md:grid-cols-12">
