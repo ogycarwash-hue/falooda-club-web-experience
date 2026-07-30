@@ -16,6 +16,10 @@ const NAV = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 40, mass: 0.3 });
+
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
