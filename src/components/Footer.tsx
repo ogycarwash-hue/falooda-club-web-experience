@@ -14,15 +14,19 @@ export function Footer() {
             Sip. Scoop. Smile.
           </span>
           <span className="font-display text-3xl font-medium text-cream/60 sm:text-5xl">
-            Falooda Club
-          </span>
-          <span className="font-display text-3xl italic font-medium text-cream/90 sm:text-5xl">
-            Port Saeed · Dubai
+            Rigga
           </span>
           <span className="font-display text-3xl font-medium text-cream/60 sm:text-5xl">
-            Since 2019
+            Abu Hail
+          </span>
+          <span className="font-display text-3xl font-medium text-cream/60 sm:text-5xl">
+            Al Waraqa
+          </span>
+          <span className="font-display text-3xl italic font-medium text-cream/90 sm:text-5xl">
+            Open till 2 AM
           </span>
         </Marquee>
+
       </div>
 
       <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-16 sm:px-8 md:grid-cols-12">
@@ -33,9 +37,10 @@ export function Footer() {
             className="h-12 w-auto brightness-110" 
           />
           <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-cream/70">
-            A Port Saeed dessert café serving the coldest faloodas, hand-pressed juices and
-            late-night broasted comfort — every day, until 2 in the morning.
+            Faloodas, sundaes, crepes and fresh juices. Three branches in Dubai, open every day
+            until 2 AM.
           </p>
+
           <div className="mt-8 flex gap-3">
             {[
               { href: SITE.social.instagram, icon: Instagram, label: "Instagram" },
@@ -80,10 +85,15 @@ export function Footer() {
 
         <div className="md:col-span-4 space-y-6 text-sm">
           <div>
-            <p className="eyebrow text-cream/50">Visit</p>
-            <p className="mt-3 leading-relaxed text-cream/80">{SITE.address}</p>
-            <p className="mt-2 text-cream/60 tabular">{SITE.hours}</p>
+            <p className="eyebrow text-cream/50">Branches</p>
+            <ul className="mt-3 space-y-1 text-cream/80">
+              {SITE.locations.map((l) => (
+                <li key={l.branch}>{l.branch}</li>
+              ))}
+            </ul>
+            <p className="mt-3 text-cream/60 tabular">{SITE.hours}</p>
           </div>
+
           <div>
             <p className="eyebrow text-cream/50">Call</p>
             <ul className="mt-3 space-y-1 tabular">
@@ -101,10 +111,11 @@ export function Footer() {
 
       <div className="border-t border-cream/10">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-3 px-5 py-6 text-xs text-cream/50 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <p className="tabular">© {year} Falooda Club — All rights reserved.</p>
-          <p className="tabular">Crafted in Dubai · Port Saeed, Clock Tower</p>
+          <p className="tabular">© {year} Falooda Club</p>
+          <p className="tabular">Dubai, UAE</p>
         </div>
       </div>
+
     </footer>
   );
 }

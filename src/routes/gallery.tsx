@@ -1,46 +1,50 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { X } from "lucide-react";
-import hero from "@/assets/hero-falooda.jpg";
-import featured from "@/assets/featured-faloodas.jpg";
-import spread from "@/assets/gallery-spread.jpg";
-import milkshake from "@/assets/milkshake.jpg";
-import lassi from "@/assets/lassi.jpg";
-import sundae from "@/assets/sundae.jpg";
-import fruit from "@/assets/fruit-salad.jpg";
-import mojito from "@/assets/mojito.jpg";
-import burger from "@/assets/burger.jpg";
-import juices from "@/assets/juices.jpg";
+import { motion } from "motion/react";
+import { PHOTOS } from "@/data/photos";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
-      { title: "Gallery — Falooda Club" },
+      { title: "Gallery — Falooda Club Dubai" },
       {
         name: "description",
         content:
-          "Photographs from Falooda Club Dubai — faloodas, shakes, juices and café moments in Port Saeed.",
+          "Photographs from Falooda Club — faloodas, sundaes, crepes and our Dubai branches in Rigga, Abu Hail and Al Waraqa.",
       },
-      { property: "og:title", content: "Gallery — Falooda Club" },
-      { property: "og:description", content: "Feast your eyes." },
+      { property: "og:title", content: "Gallery — Falooda Club Dubai" },
+      {
+        property: "og:description",
+        content: "Faloodas, sundaes, crepes and our Dubai branches, in photographs.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/gallery" }],
   }),
   component: Gallery,
 });
 
-// Editorial masonry — mix of aspect ratios, no busy spans
 const IMAGES = [
-  { src: hero, alt: "Strawberry falooda glass", ratio: "aspect-[3/4]" },
-  { src: featured, alt: "Three faloodas lined up", ratio: "aspect-[4/3]" },
-  { src: milkshake, alt: "Nutella crush milkshake", ratio: "aspect-square" },
-  { src: lassi, alt: "Mango lassi", ratio: "aspect-[4/5]" },
-  { src: mojito, alt: "Watermelon mojito", ratio: "aspect-[3/4]" },
-  { src: sundae, alt: "Chocolate sundae", ratio: "aspect-square" },
-  { src: fruit, alt: "Fruit salad with ice cream", ratio: "aspect-[4/5]" },
-  { src: burger, alt: "Zinker burger meal", ratio: "aspect-[4/3]" },
-  { src: juices, alt: "Fresh juice lineup", ratio: "aspect-[3/4]" },
-  { src: spread, alt: "Drinks flatlay", ratio: "aspect-[4/3]" },
+  { src: PHOTOS.specialClub, alt: "Special club falooda", ratio: "aspect-[3/4]" },
+  { src: PHOTOS.kulfi, alt: "Kulfi falooda", ratio: "aspect-[4/3]" },
+  { src: PHOTOS.nutellaCrepe, alt: "Nutella crepe", ratio: "aspect-square" },
+  { src: PHOTOS.mango, alt: "Mango falooda", ratio: "aspect-[4/5]" },
+  { src: PHOTOS.storefront1, alt: "Falooda Club storefront", ratio: "aspect-[4/3]" },
+  { src: PHOTOS.brownieBowl, alt: "Brownie bowl", ratio: "aspect-square" },
+  { src: PHOTOS.arabic, alt: "Arabic falooda", ratio: "aspect-[3/4]" },
+  { src: PHOTOS.oreoBowl, alt: "Oreo bowl", ratio: "aspect-[4/5]" },
+  { src: PHOTOS.storefront3, alt: "Falooda Club counter", ratio: "aspect-[4/3]" },
+  { src: PHOTOS.blackberry, alt: "Blackberry falooda", ratio: "aspect-[3/4]" },
+  { src: PHOTOS.strawberrySundae, alt: "Strawberry sundae", ratio: "aspect-square" },
+  { src: PHOTOS.avocado, alt: "Avocado falooda", ratio: "aspect-[4/5]" },
+  { src: PHOTOS.mangoJuice, alt: "Fresh mango juice", ratio: "aspect-[3/4]" },
+  { src: PHOTOS.opening, alt: "Falooda Club branch opening", ratio: "aspect-[4/3]" },
+  { src: PHOTOS.caramelCup, alt: "Caramel cup dessert", ratio: "aspect-square" },
+  { src: PHOTOS.kerala, alt: "Kerala falooda", ratio: "aspect-[4/5]" },
+  { src: PHOTOS.tender, alt: "Tender coconut falooda", ratio: "aspect-[3/4]" },
+  { src: PHOTOS.storefront5, alt: "Falooda Club shopfront at night", ratio: "aspect-[4/3]" },
 ];
 
 function Gallery() {
@@ -56,15 +60,18 @@ function Gallery() {
         </div>
       </section>
 
-
-      <section className="py-16 sm:py-24">
+      <section className="py-12 sm:py-20">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
           <div className="columns-1 gap-4 sm:columns-2 sm:gap-6 lg:columns-3">
             {IMAGES.map((img, i) => (
-              <button
-                key={i}
+              <motion.button
+                key={img.src}
                 type="button"
                 onClick={() => setLightbox(i)}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="group mb-4 block w-full text-left sm:mb-6"
               >
                 <figure className="break-inside-avoid">
@@ -73,11 +80,12 @@ function Gallery() {
                       src={img.src}
                       alt={img.alt}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-[1.04]"
+                      className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
                     />
+                    <span className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/15" />
                   </div>
                 </figure>
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -87,7 +95,7 @@ function Gallery() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/95 p-4"
+          className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-ink/95 p-4"
           onClick={() => setLightbox(null)}
         >
           <button

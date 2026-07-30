@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { motion, useScroll, useSpring } from "motion/react";
 import { OrderCta } from "./OrderCta";
+
 
 const NAV = [
   { to: "/menu", label: "Menu", index: "01" },
@@ -14,6 +16,10 @@ const NAV = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 40, mass: 0.3 });
+
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -41,7 +47,9 @@ export function Navbar() {
     >
       <nav
         aria-label="Primary"
-        className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 px-5 sm:h-20 sm:px-8"
+        className={`mx-auto flex max-w-[1400px] items-center justify-between gap-6 px-5 transition-[height] duration-300 sm:px-8 ${
+          scrolled ? "h-14 sm:h-16" : "h-16 sm:h-20"
+        }`}
       >
         <Link to="/" className="flex shrink-0 items-center gap-3" aria-label="Falooda Club home">
           <img
@@ -49,8 +57,11 @@ export function Navbar() {
             alt="Falooda Club"
             width={140}
             height={90}
-            className="h-9 w-auto sm:h-11"
+            className={`w-auto transition-[height] duration-300 ${
+              scrolled ? "h-8 sm:h-9" : "h-9 sm:h-11"
+            }`}
           />
+
           <span className="hidden font-display text-[11px] uppercase leading-tight tracking-[0.22em] text-ink/60 sm:block">
             Est. 2019 <br /> Dubai
           </span>
@@ -89,6 +100,13 @@ export function Navbar() {
           </button>
         </div>
       </nav>
+
+      <motion.div
+        aria-hidden
+        style={{ scaleX: progress }}
+        className="h-px w-full origin-left bg-accent-orange"
+      />
+
 
       {open && (
         <div className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-cream md:hidden">

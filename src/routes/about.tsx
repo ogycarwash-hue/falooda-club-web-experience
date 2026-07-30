@@ -1,11 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { OrderCta } from "@/components/OrderCta";
-import spread from "@/assets/gallery-spread.jpg";
-import falooda from "@/assets/hero-falooda.jpg";
-import featured from "@/assets/featured-faloodas.jpg";
-import juices from "@/assets/juices.jpg";
-import sundae from "@/assets/sundae.jpg";
+import { PHOTOS } from "@/data/photos";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -14,12 +10,12 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "Falooda Club is a dessert café in Port Saeed, Dubai, serving faloodas, fresh juices, milkshakes and broasted meals since 2019.",
+          "Falooda Club is a Dubai dessert café serving faloodas, sundaes, crepes and fresh juices since 2019. Three branches: Rigga, Abu Hail and Al Waraqa.",
       },
-      { property: "og:title", content: "About — Falooda Club" },
+      { property: "og:title", content: "About — Falooda Club Dubai" },
       {
         property: "og:description",
-        content: "A dessert café in Port Saeed, Dubai. Open daily 8 AM – 2 AM.",
+        content: "Faloodas, sundaes and fresh juices in Dubai since 2019. Open daily 8 AM – 2 AM.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -32,20 +28,22 @@ export const Route = createFileRoute("/about")({
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const GRID = [
-  { src: featured, alt: "Falooda line-up", span: "sm:col-span-2 aspect-[16/10]" },
-  { src: juices, alt: "Fresh juices", span: "aspect-[4/5]" },
-  { src: sundae, alt: "Chocolate sundae", span: "aspect-[4/5]" },
-  { src: spread, alt: "Drinks and desserts spread", span: "sm:col-span-2 aspect-[16/10]" },
+  { src: PHOTOS.storefront1, alt: "Falooda Club storefront", span: "sm:col-span-2 aspect-[16/10]" },
+  { src: PHOTOS.mangoJuice, alt: "Fresh mango juice", span: "aspect-[4/5]" },
+  { src: PHOTOS.brownieBowl, alt: "Brownie bowl", span: "aspect-[4/5]" },
+  { src: PHOTOS.opening2, alt: "Falooda Club branch opening", span: "sm:col-span-2 aspect-[16/10]" },
 ];
 
 function About() {
   return (
     <div>
-      {/* Full-bleed opener */}
-      <section className="relative h-[60vh] min-h-[380px] overflow-hidden">
-        <img
-          src={falooda}
-          alt="Falooda in a tall glass"
+      <section className="relative h-[62vh] min-h-[380px] overflow-hidden">
+        <motion.img
+          initial={{ scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.6, ease: EASE }}
+          src={PHOTOS.specialClub}
+          alt="Falooda Club special club falooda"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/85 to-ink/20" />
@@ -64,40 +62,37 @@ function About() {
         </div>
       </section>
 
-      {/* Short statement */}
       <section className="py-16 sm:py-24">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
           <p className="font-display text-2xl font-medium leading-[1.3] text-ink text-balance sm:text-4xl">
-            Falooda Club is a dessert café in Port Saeed, Dubai. Faloodas, fresh juices,
-            milkshakes and broasted meals — served every day until 2 AM.
+            Falooda Club is a dessert café in Dubai. Faloodas, sundaes, crepes and fresh juices —
+            served every day until 2 AM across Rigga, Abu Hail and Al Waraqa.
           </p>
         </div>
       </section>
 
-      {/* Photo grid */}
       <section className="pb-20 sm:pb-28">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-3 px-5 sm:grid-cols-2 sm:gap-4 sm:px-8">
           {GRID.map((g, i) => (
             <motion.div
               key={g.alt}
-              initial={{ opacity: 0, scale: 0.97 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, clipPath: "inset(14% 0% 0% 0%)" }}
+              whileInView={{ opacity: 1, clipPath: "inset(0% 0% 0% 0%)" }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: (i % 2) * 0.08, ease: EASE }}
+              transition={{ duration: 0.85, delay: (i % 2) * 0.09, ease: EASE }}
               className={`group overflow-hidden bg-secondary ${g.span}`}
             >
               <img
                 src={g.src}
                 alt={g.alt}
                 loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
+                className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
               />
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* CTA */}
       <section className="pb-20 sm:pb-28">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
           <OrderCta size="lg" />
