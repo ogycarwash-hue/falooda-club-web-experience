@@ -37,9 +37,10 @@ export function Footer() {
             className="h-12 w-auto brightness-110" 
           />
           <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-cream/70">
-            A Port Saeed dessert café serving the coldest faloodas, hand-pressed juices and
-            late-night broasted comfort — every day, until 2 in the morning.
+            Faloodas, sundaes, crepes and fresh juices. Three branches in Dubai, open every day
+            until 2 AM.
           </p>
+
           <div className="mt-8 flex gap-3">
             {[
               { href: SITE.social.instagram, icon: Instagram, label: "Instagram" },
