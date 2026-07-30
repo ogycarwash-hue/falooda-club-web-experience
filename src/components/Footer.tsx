@@ -105,10 +105,11 @@ export function Footer() {
 
       <div className="border-t border-cream/10">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-3 px-5 py-6 text-xs text-cream/50 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <p className="tabular">© {year} Falooda Club — All rights reserved.</p>
-          <p className="tabular">Crafted in Dubai · Port Saeed, Clock Tower</p>
+          <p className="tabular">© {year} Falooda Club</p>
+          <p className="tabular">Dubai, UAE</p>
         </div>
       </div>
+
     </footer>
   );
 }
