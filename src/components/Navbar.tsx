@@ -101,6 +101,13 @@ export function Navbar() {
         </div>
       </nav>
 
+      <motion.div
+        aria-hidden
+        style={{ scaleX: progress }}
+        className="h-px w-full origin-left bg-accent-orange"
+      />
+
+
       {open && (
         <div className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-cream md:hidden">
           <div className="mx-auto max-w-[1400px] px-5 py-10">
