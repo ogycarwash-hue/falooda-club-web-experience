@@ -20,8 +20,10 @@ export function InstagramGrid() {
 
     const process = () => {
       if (cancelled) return;
-      window.instgrm?.Embeds.processEmbeds();
+      const fn = window.instgrm?.Embeds?.processEmbeds;
+      if (typeof fn === "function") fn();
     };
+
 
     const existing = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null;
 
