@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { motion, useScroll, useSpring } from "motion/react";
 import { OrderCta } from "./OrderCta";
+
 
 const NAV = [
   { to: "/menu", label: "Menu", index: "01" },
