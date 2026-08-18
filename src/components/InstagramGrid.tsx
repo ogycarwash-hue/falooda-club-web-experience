@@ -136,6 +136,27 @@ export function InstagramGrid() {
           </motion.div>
         ))}
       </div>
+
+      {visible < IG_POSTS.length && (
+        <div className="mt-10 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setVisible(IG_POSTS.length)}
+            className="inline-flex h-12 items-center justify-center rounded-full border border-hairline px-7 text-sm font-medium text-ink transition-colors hover:border-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-orange focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+          >
+            Load more posts
+          </button>
+        </div>
+      )}
+
+      {/* Keep every post reachable for crawlers even before "Load more". */}
+      <ul className="sr-only">
+        {IG_POSTS.map((post) => (
+          <li key={`link-${post.permalink}`}>
+            <a href={post.permalink}>View post on Instagram</a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
