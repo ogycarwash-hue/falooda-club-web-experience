@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Instagram, ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 import { IG_POSTS, IG_PROFILE } from "@/data/instagram";
