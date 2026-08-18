@@ -12,8 +12,18 @@ declare global {
 const SCRIPT_ID = "instagram-embed-script";
 const SCRIPT_SRC = "https://www.instagram.com/embed.js";
 
+const INITIAL_VISIBLE = 6;
+
 export function InstagramGrid() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(INITIAL_VISIBLE);
+
+  // Newly revealed blockquotes need another pass from embed.js.
+  useEffect(() => {
+    if (visible === INITIAL_VISIBLE) return;
+    const t = setTimeout(() => window.instgrm?.Embeds?.processEmbeds?.(), 60);
+    return () => clearTimeout(t);
+  }, [visible]);
 
   useEffect(() => {
     let cancelled = false;
