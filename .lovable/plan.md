@@ -1,39 +1,36 @@
-# Add 3 reels to the top of the Instagram grid + fix previews + site review
+# Add 3 reels to the Instagram grid + enhancement pass
 
-## 1. The three reels
+The Instagram grid works as it stands — the embed script handling in `src/components/InstagramGrid.tsx` stays exactly as it is. No rewrite, no change to the script loading, the retry loop, or the blockquote markup.
 
-Add the reels first in the grid, before the nine existing posts (Instagram query strings like `?igsh=...` are stripped — only the clean permalink is used):
+## 1. Add the three reels at the top
 
-- `/reel/C9KvG_mKJAb/`
-- `/reel/C-U-4RXv4eu/`
-- `/reel/C-IjmLXy5lW/`
+Only `src/data/instagram.ts` changes: three new entries prepended to `IG_POSTS`, tracking query strings (`?igsh=...`) dropped since embeds only need the clean permalink.
 
-## 2. Make the previews actually render
+```text
+https://www.instagram.com/reel/C9KvG_mKJAb/
+https://www.instagram.com/reel/C-U-4RXv4eu/
+https://www.instagram.com/reel/C-IjmLXy5lW/
+… then the 9 existing posts
+```
 
-Two concrete problems in `src/components/InstagramGrid.tsx`:
+Reels use the same `/reel/` permalink format that `embed.js` already handles, so they render through the existing component untouched.
 
-- The permalink attribute is built as `${post.permalink}?utm_source=ig_embed&am;utm_campaign=loading` — the `&am;` is a broken entity, so the URL Instagram receives is malformed. Fix: pass the bare permalink with no query string.
-- Reels need `data-instgrm-version="14"` on a `blockquote` whose inner placeholder is replaced wholesale; the current markup keeps a custom skeleton inside the blockquote which stays visible when the embed fails.
+## 2. Grid presentation (additive only)
 
-Changes:
-- Wrap each embed in a fixed-ratio container so the section never collapses or jumps while embeds resolve.
-- Render a real fallback card underneath (photo thumbnail + "View on Reel/Post") that is hidden once the iframe is detected, so a blocked `embed.js` (ad blockers, preview iframe) still shows a clickable card instead of a blank tile.
-- Re-run `processEmbeds()` on mount, on script load, and once more after a short delay; stop retrying once every blockquote has an iframe child.
-- Show 6 embeds by default with a "Load more" reveal so the section isn't 12 heavy iframes on first paint (all 12 still crawlable via links).
+- Show the first 6 tiles, with a "Load more" button revealing the rest — 12 live iframes on first paint is slow, and reels are heavier than photos. Existing embeds still mount the same way when revealed; `processEmbeds()` is called again after the reveal so newly mounted blockquotes resolve.
+- Keep every permalink as a plain link so all 12 remain reachable and crawlable.
 
-## 3. Website review — improvements to make in this pass
+## 3. Other improvements across the site
 
-Small, high-value fixes found while reviewing:
-
-- **Gallery**: lightbox has no keyboard support — add Escape to close, arrow keys to move between photos, and lock body scroll while open.
-- **Images**: add explicit `width`/`height` or aspect-ratio boxes plus `decoding="async"` on the gallery and rail images so photos don't shift layout as they load.
-- **Motion**: respect `prefers-reduced-motion` — currently the marquee, parallax hero and auto-scrolling rail all keep moving. Gate them behind a `useReducedMotion` check.
-- **Locations page**: give each of the three branches a photo, a tap-to-call number and a Directions button so it matches the homepage Visit block.
-- **Menu**: sticky category nav that scrolls to each section, so the long menu is navigable on mobile.
-- **Head metadata**: confirm every route has a unique title/description and that `og:image` points at a real absolute photo URL for share previews.
-- **Accessibility**: focus-visible rings on the dark CTA buttons, and `aria-label` on the icon-only social and lightbox close buttons.
+- **Gallery lightbox**: add Escape to close, arrow keys to step between photos, and body-scroll lock while open. Current behaviour (click to open, X to close) is preserved.
+- **Reduced motion**: gate the hero parallax, footer marquee and product rail auto-scroll behind `useReducedMotion` so the site is calm for users who ask for it.
+- **Image stability**: aspect-ratio boxes and `decoding="async"` on gallery and rail images so nothing shifts as photos load.
+- **Locations page**: give each branch a photo, tap-to-call number and Directions button, matching the homepage Visit block.
+- **Menu**: sticky category nav that jumps to each section — the menu is long on mobile.
+- **Share previews**: add `og:image` / `twitter:image` with a real absolute photo URL on the home, menu and gallery routes.
+- **Accessibility**: focus-visible rings on dark CTAs, `aria-label` on icon-only social and lightbox buttons.
 
 ## Technical notes
 
-- `src/data/instagram.ts` grows to 12 entries with an optional `type: "reel" | "post"` and an optional fallback photo key from `src/data/photos.ts`.
-- No backend or data-model change; all edits are in components, route files and data files.
+- `InstagramGrid.tsx` gets only the pagination wrapper; the `useEffect` embed logic is left byte-identical apart from re-running the existing `process()` after "Load more".
+- No backend or data-model change. All edits sit in data files, route files and presentation components.
