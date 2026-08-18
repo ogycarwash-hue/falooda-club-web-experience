@@ -42,7 +42,7 @@ export function ProductRail() {
 
   return (
     <div className="group flex overflow-hidden">
-      <div className="flex shrink-0 animate-marquee-slow group-hover:[animation-play-state:paused]">
+      <div className="flex shrink-0 animate-marquee-slow motion-reduce:animate-none group-hover:[animation-play-state:paused]">
         {set}
         <div aria-hidden className="flex shrink-0">
           {set}

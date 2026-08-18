@@ -26,7 +26,7 @@ export function Marquee({
   return (
     <div className={`group flex overflow-hidden ${className}`} aria-hidden={false}>
       <div
-        className={`flex shrink-0 ${speed === "slow" ? "animate-marquee-slow" : "animate-marquee"} group-hover:[animation-play-state:paused]`}
+        className={`flex shrink-0 ${speed === "slow" ? "animate-marquee-slow" : "animate-marquee"} motion-reduce:animate-none group-hover:[animation-play-state:paused]`}
       >
         <div className="flex shrink-0 items-center">{rendered}</div>
         <div className="flex shrink-0 items-center" aria-hidden>{rendered}</div>
