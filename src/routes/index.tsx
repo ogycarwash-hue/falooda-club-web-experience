@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import { useRef } from "react";
 
@@ -30,6 +30,14 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        property: "og:image",
+        content: "https://falooda-club-web-experience.lovable.app/photos/special-club-falooda-2.jpg",
+      },
+      {
+        name: "twitter:image",
+        content: "https://falooda-club-web-experience.lovable.app/photos/special-club-falooda-2.jpg",
+      },
     ],
     scripts: [
       {
@@ -72,6 +80,7 @@ function Home() {
 /* ─────────────────────────── HERO ─────────────────────────── */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.14]);
@@ -79,7 +88,7 @@ function Hero() {
 
   return (
     <section ref={ref} className="relative h-[92vh] min-h-[560px] w-full overflow-hidden">
-      <motion.div style={{ y, scale }} className="absolute inset-0">
+      <motion.div style={reduced ? undefined : { y, scale }} className="absolute inset-0">
         <img
           src={PHOTOS.specialClub2}
           alt="Falooda served in a tall glass at Falooda Club Dubai"

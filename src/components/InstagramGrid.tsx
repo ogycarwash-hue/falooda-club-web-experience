@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Instagram, ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 import { IG_POSTS, IG_PROFILE } from "@/data/instagram";
@@ -12,8 +12,18 @@ declare global {
 const SCRIPT_ID = "instagram-embed-script";
 const SCRIPT_SRC = "https://www.instagram.com/embed.js";
 
+const INITIAL_VISIBLE = 6;
+
 export function InstagramGrid() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(INITIAL_VISIBLE);
+
+  // Newly revealed blockquotes need another pass from embed.js.
+  useEffect(() => {
+    if (visible === INITIAL_VISIBLE) return;
+    const t = setTimeout(() => window.instgrm?.Embeds?.processEmbeds?.(), 60);
+    return () => clearTimeout(t);
+  }, [visible]);
 
   useEffect(() => {
     let cancelled = false;
@@ -88,7 +98,7 @@ export function InstagramGrid() {
         ref={containerRef}
         className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {IG_POSTS.map((post, i) => (
+        {IG_POSTS.slice(0, visible).map((post, i) => (
           <motion.div
             key={post.permalink}
             initial={{ opacity: 0, y: 20 }}
@@ -126,6 +136,27 @@ export function InstagramGrid() {
           </motion.div>
         ))}
       </div>
+
+      {visible < IG_POSTS.length && (
+        <div className="mt-10 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setVisible(IG_POSTS.length)}
+            className="inline-flex h-12 items-center justify-center rounded-full border border-hairline px-7 text-sm font-medium text-ink transition-colors hover:border-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-orange focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+          >
+            Load more posts
+          </button>
+        </div>
+      )}
+
+      {/* Keep every post reachable for crawlers even before "Load more". */}
+      <ul className="sr-only">
+        {IG_POSTS.map((post) => (
+          <li key={`link-${post.permalink}`}>
+            <a href={post.permalink}>View post on Instagram</a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { motion } from "motion/react";
 import { PHOTOS } from "@/data/photos";
 
@@ -49,6 +49,27 @@ const IMAGES = [
 
 function Gallery() {
   const [lightbox, setLightbox] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (lightbox === null) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "ArrowRight") setLightbox((n) => ((n ?? 0) + 1) % IMAGES.length);
+      if (e.key === "ArrowLeft")
+        setLightbox((n) => ((n ?? 0) - 1 + IMAGES.length) % IMAGES.length);
+    };
+
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [lightbox]);
+
 
   return (
     <div>
@@ -99,18 +120,43 @@ function Gallery() {
           onClick={() => setLightbox(null)}
         >
           <button
-            aria-label="Close"
-            className="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full border border-cream/25 text-cream"
+            aria-label="Close photo viewer"
+            className="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink"
             onClick={() => setLightbox(null)}
           >
             <X className="h-5 w-5" />
           </button>
+          <button
+            aria-label="Previous photo"
+            className="absolute left-3 grid h-12 w-12 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink sm:left-6"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightbox((n) => ((n ?? 0) - 1 + IMAGES.length) % IMAGES.length);
+            }}
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            aria-label="Next photo"
+            className="absolute right-3 grid h-12 w-12 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink sm:right-6"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightbox((n) => ((n ?? 0) + 1) % IMAGES.length);
+            }}
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
           <figure onClick={(e) => e.stopPropagation()} className="max-h-[90vh] max-w-[90vw]">
             <img
+              key={IMAGES[lightbox].src}
               src={IMAGES[lightbox].src}
               alt={IMAGES[lightbox].alt}
-              className="max-h-[85vh] w-auto object-contain"
+              decoding="async"
+              className="max-h-[85vh] w-auto animate-fade-in object-contain"
             />
+            <figcaption className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-cream/60">
+              {lightbox + 1} / {IMAGES.length}
+            </figcaption>
           </figure>
         </div>
       )}
