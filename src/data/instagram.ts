@@ -8,6 +8,9 @@ export type IGPost = {
 };
 
 export const IG_POSTS: IGPost[] = [
+  { permalink: "https://www.instagram.com/reel/C9KvG_mKJAb/" },
+  { permalink: "https://www.instagram.com/reel/C-U-4RXv4eu/" },
+  { permalink: "https://www.instagram.com/reel/C-IjmLXy5lW/" },
   { permalink: "https://www.instagram.com/p/DWY3r-CjC8f/" },
   { permalink: "https://www.instagram.com/p/DYPFFj1MPcD/" },
   { permalink: "https://www.instagram.com/p/DaDOIGrszXw/" },
