@@ -50,6 +50,27 @@ const IMAGES = [
 function Gallery() {
   const [lightbox, setLightbox] = useState<number | null>(null);
 
+  useEffect(() => {
+    if (lightbox === null) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "ArrowRight") setLightbox((n) => ((n ?? 0) + 1) % IMAGES.length);
+      if (e.key === "ArrowLeft")
+        setLightbox((n) => ((n ?? 0) - 1 + IMAGES.length) % IMAGES.length);
+    };
+
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [lightbox]);
+
+
   return (
     <div>
       <section className="pt-16 sm:pt-24">
