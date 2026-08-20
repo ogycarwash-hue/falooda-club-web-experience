@@ -1,16 +1,19 @@
 import { PHOTOS } from "@/data/photos";
 
 const RAIL = [
-  { image: PHOTOS.specialClub2, name: "Special Club Falooda" },
+  { image: PHOTOS.specialClub, name: "Special Club Falooda" },
   { image: PHOTOS.kulfi, name: "Kulfi Falooda" },
   { image: PHOTOS.mango2, name: "Mango Falooda" },
   { image: PHOTOS.arabic, name: "Arabic Falooda" },
   { image: PHOTOS.blackberry, name: "Blackberry Falooda" },
   { image: PHOTOS.avocado, name: "Avocado Falooda" },
-  { image: PHOTOS.nutellaCrepe, name: "Nutella Crepe" },
-  { image: PHOTOS.oreoBowl, name: "Oreo Bowl" },
+  { image: PHOTOS.blueberry, name: "Blueberry Falooda" },
+  { image: PHOTOS.kerala, name: "Kerala Falooda" },
+  { image: PHOTOS.mumbai, name: "Mumbai Style Falooda" },
+  { image: PHOTOS.passionFruit, name: "Passion Fruit Falooda" },
+  { image: PHOTOS.royalHotgrill, name: "Royal Falooda" },
   { image: PHOTOS.tender, name: "Tender Coconut Falooda" },
-  { image: PHOTOS.strawberrySundae, name: "Strawberry Sundae" },
+  { image: PHOTOS.strawberryHotgrill, name: "Strawberry Falooda" },
 ];
 
 function Card({ item }: { item: (typeof RAIL)[number] }) {

@@ -5,8 +5,8 @@ import { PHOTOS } from "@/data/photos";
 
 const TILES = [
   { label: "Faloodas", image: PHOTOS.specialClub, to: "/menu", alt: "Special club falooda in a tall glass" },
-  { label: "Sundaes & Bowls", image: PHOTOS.brownieBowl, to: "/menu", alt: "Brownie bowl with ice cream" },
-  { label: "Juices & Shakes", image: PHOTOS.mangoJuice, to: "/menu", alt: "Fresh mango juice" },
+  { label: "Sundaes & Bowls", image: PHOTOS.kulfi, to: "/menu", alt: "Kulfi falooda with ice cream" },
+  { label: "Juices & Shakes", image: PHOTOS.mango, to: "/menu", alt: "Mango falooda" },
 ];
 
 export function CategoryTiles() {
