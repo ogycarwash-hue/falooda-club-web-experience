@@ -90,7 +90,7 @@ function Hero() {
     <section ref={ref} className="relative h-[92vh] min-h-[560px] w-full overflow-hidden">
       <motion.div style={reduced ? undefined : { y, scale }} className="absolute inset-0">
         <img
-          src={PHOTOS.specialClub2}
+          src={PHOTOS.specialClub}
           alt="Falooda served in a tall glass at Falooda Club Dubai"
           className="h-full w-full object-cover"
         />
@@ -234,7 +234,7 @@ function Visit() {
             className="group overflow-hidden bg-secondary"
           >
             <img
-              src={PHOTOS.storefront2}
+              src={PHOTOS.storefront7}
               alt="Falooda Club storefront in Dubai"
               loading="lazy"
               className="h-full min-h-[340px] w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.05]"

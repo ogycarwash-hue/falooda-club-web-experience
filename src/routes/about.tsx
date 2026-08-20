@@ -27,12 +27,8 @@ export const Route = createFileRoute("/about")({
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const GRID = [
-  { src: PHOTOS.storefront1, alt: "Falooda Club storefront", span: "sm:col-span-2 aspect-[16/10]" },
-  { src: PHOTOS.mangoJuice, alt: "Fresh mango juice", span: "aspect-[4/5]" },
-  { src: PHOTOS.brownieBowl, alt: "Brownie bowl", span: "aspect-[4/5]" },
-  { src: PHOTOS.opening2, alt: "Falooda Club branch opening", span: "sm:col-span-2 aspect-[16/10]" },
-];
+/** Lead storefront shot, then every other branch/opening photo in the masonry. */
+const [LEAD, ...REST] = BRANCH_PHOTOS;
 
 function About() {
   return (
