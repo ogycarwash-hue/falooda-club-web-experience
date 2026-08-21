@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { motion } from "motion/react";
 import { PHOTOS } from "@/data/photos";
+
+const URL = "https://falooda-club-web-experience.lovable.app/gallery";
+const OG = "https://falooda-club-web-experience.lovable.app/photos/special-club-falooda.jpg";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -11,29 +14,58 @@ export const Route = createFileRoute("/gallery")({
       {
         name: "description",
         content:
-          "Photographs from Falooda Club — faloodas, sundaes, crepes and our Dubai branches in Rigga, Abu Hail and Al Waraqa.",
+          "Photographs from Falooda Club — faloodas, ice cream, loaded fries and fresh juices, served daily in Rigga, Abu Hail and Al Waraqa.",
       },
       { property: "og:title", content: "Gallery — Falooda Club Dubai" },
       {
         property: "og:description",
-        content: "Faloodas, sundaes, crepes and our Dubai branches, in photographs.",
+        content: "Faloodas, ice cream, fries and fresh juices, in photographs.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: URL },
+      { property: "og:image", content: OG },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG },
     ],
-    links: [{ rel: "canonical", href: "/gallery" }],
+    links: [{ rel: "canonical", href: URL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: "https://falooda-club-web-experience.lovable.app/",
+            },
+            { "@type": "ListItem", position: 2, name: "Gallery", item: URL },
+          ],
+        }),
+      },
+    ],
   }),
   component: Gallery,
 });
 
 const IMAGES = [
   { src: PHOTOS.specialClub, alt: "Special club falooda", ratio: "aspect-[3/4]" },
-  { src: PHOTOS.kulfi, alt: "Kulfi falooda", ratio: "aspect-[4/3]" },
+  { src: PHOTOS.running, alt: "Running falooda", ratio: "aspect-[4/5]" },
+  { src: PHOTOS.iceCream, alt: "Ice cream sundae", ratio: "aspect-[4/3]" },
+  { src: PHOTOS.kulfi, alt: "Kulfi falooda", ratio: "aspect-square" },
+  { src: PHOTOS.loadedFries, alt: "Loaded fries", ratio: "aspect-[4/5]" },
   { src: PHOTOS.mango, alt: "Mango falooda", ratio: "aspect-square" },
+  { src: PHOTOS.carrot, alt: "Carrot falooda", ratio: "aspect-[3/4]" },
   { src: PHOTOS.arabic, alt: "Arabic falooda", ratio: "aspect-[4/5]" },
+  { src: PHOTOS.mixedIceCream, alt: "Mixed ice cream bowl", ratio: "aspect-[4/3]" },
   { src: PHOTOS.blackberry, alt: "Blackberry falooda", ratio: "aspect-[3/4]" },
+  { src: PHOTOS.zingerFries, alt: "Zinger fries", ratio: "aspect-[4/5]" },
   { src: PHOTOS.blueberry, alt: "Blueberry falooda", ratio: "aspect-[4/3]" },
+  { src: PHOTOS.blueberry2, alt: "Blueberry falooda topped with ice cream", ratio: "aspect-[3/4]" },
   { src: PHOTOS.avocado, alt: "Avocado falooda", ratio: "aspect-square" },
+  { src: PHOTOS.sipHappiness, alt: "Falooda Club drinks lineup", ratio: "aspect-[4/5]" },
   { src: PHOTOS.kerala, alt: "Kerala falooda", ratio: "aspect-[4/5]" },
   { src: PHOTOS.mumbai, alt: "Mumbai style falooda", ratio: "aspect-[3/4]" },
   { src: PHOTOS.passionFruit, alt: "Passion fruit falooda", ratio: "aspect-[4/3]" },
@@ -43,8 +75,6 @@ const IMAGES = [
   { src: PHOTOS.mango2, alt: "Mango falooda with ice cream", ratio: "aspect-[4/3]" },
   { src: PHOTOS.mango3, alt: "Mango falooda close up", ratio: "aspect-square" },
   { src: PHOTOS.royalHotgrill, alt: "Royal falooda", ratio: "aspect-[4/5]" },
-  { src: PHOTOS.strawberryHotgrill, alt: "Strawberry falooda", ratio: "aspect-[3/4]" },
-  { src: PHOTOS.mangoHotgrill, alt: "Mango falooda", ratio: "aspect-[4/3]" },
   { src: PHOTOS.promoKunafa, alt: "Kunafa falooda", ratio: "aspect-square" },
   { src: PHOTOS.promoCoffee, alt: "Coffee falooda", ratio: "aspect-[4/5]" },
   { src: PHOTOS.posterCoffeeFloat, alt: "Coffee float", ratio: "aspect-[3/4]" },
@@ -54,15 +84,18 @@ const IMAGES = [
 
 function Gallery() {
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const touchX = useRef<number | null>(null);
+
+  const next = () => setLightbox((n) => ((n ?? 0) + 1) % IMAGES.length);
+  const prev = () => setLightbox((n) => ((n ?? 0) - 1 + IMAGES.length) % IMAGES.length);
 
   useEffect(() => {
     if (lightbox === null) return;
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setLightbox(null);
-      if (e.key === "ArrowRight") setLightbox((n) => ((n ?? 0) + 1) % IMAGES.length);
-      if (e.key === "ArrowLeft")
-        setLightbox((n) => ((n ?? 0) - 1 + IMAGES.length) % IMAGES.length);
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
     };
 
     window.addEventListener("keydown", onKey);
@@ -75,37 +108,43 @@ function Gallery() {
     };
   }, [lightbox]);
 
-
   return (
     <div>
-      <section className="pt-16 sm:pt-24">
+      <section className="pt-12 sm:pt-24">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
-          <h1 className="font-display text-5xl font-medium leading-none text-ink sm:text-7xl">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display text-4xl font-medium leading-none text-ink sm:text-7xl"
+          >
             Gallery
-          </h1>
+          </motion.h1>
         </div>
       </section>
 
-      <section className="py-12 sm:py-20">
+      <section className="py-8 sm:py-20">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
-          <div className="columns-1 gap-4 sm:columns-2 sm:gap-6 lg:columns-3">
+          <div className="columns-2 gap-2.5 sm:gap-6 lg:columns-3">
             {IMAGES.map((img, i) => (
               <motion.button
                 key={img.src}
                 type="button"
                 onClick={() => setLightbox(i)}
-                initial={{ opacity: 0, y: 24 }}
+                aria-label={`Open ${img.alt} full screen`}
+                initial={{ opacity: 0, y: 26 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="group mb-4 block w-full text-left sm:mb-6"
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.7, delay: (i % 3) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                className="group mb-2.5 block w-full break-inside-avoid text-left sm:mb-6"
               >
-                <figure className="break-inside-avoid">
+                <figure>
                   <div className={`relative overflow-hidden bg-secondary ${img.ratio}`}>
                     <img
                       src={img.src}
                       alt={img.alt}
-                      loading="lazy"
+                      loading={i < 4 ? "eager" : "lazy"}
+                      decoding="async"
                       className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
                     />
                     <span className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/15" />
@@ -121,48 +160,66 @@ function Gallery() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-ink/95 p-4"
+          aria-label="Photo viewer"
+          className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-ink/95 p-2 pb-[env(safe-area-inset-bottom)] sm:p-4"
           onClick={() => setLightbox(null)}
+          onTouchStart={(e) => {
+            touchX.current = e.touches[0]?.clientX ?? null;
+          }}
+          onTouchEnd={(e) => {
+            const start = touchX.current;
+            const end = e.changedTouches[0]?.clientX;
+            if (start === null || end === undefined) return;
+            const dx = end - start;
+            if (Math.abs(dx) > 50) (dx < 0 ? next : prev)();
+            touchX.current = null;
+          }}
         >
           <button
             aria-label="Close photo viewer"
-            className="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink"
+            className="absolute right-4 top-4 z-10 grid h-12 w-12 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink"
             onClick={() => setLightbox(null)}
           >
             <X className="h-5 w-5" />
           </button>
           <button
             aria-label="Previous photo"
-            className="absolute left-3 grid h-12 w-12 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink sm:left-6"
+            className="absolute left-3 z-10 hidden h-12 w-12 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink sm:left-6 sm:grid"
             onClick={(e) => {
               e.stopPropagation();
-              setLightbox((n) => ((n ?? 0) - 1 + IMAGES.length) % IMAGES.length);
+              prev();
             }}
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             aria-label="Next photo"
-            className="absolute right-3 grid h-12 w-12 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink sm:right-6"
+            className="absolute right-3 z-10 hidden h-12 w-12 place-items-center rounded-full border border-cream/25 text-cream transition-colors hover:bg-cream hover:text-ink sm:right-6 sm:grid"
             onClick={(e) => {
               e.stopPropagation();
-              setLightbox((n) => ((n ?? 0) + 1) % IMAGES.length);
+              next();
             }}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
-          <figure onClick={(e) => e.stopPropagation()} className="max-h-[90vh] max-w-[90vw]">
+          <motion.figure
+            key={IMAGES[lightbox].src}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[92vh] w-full max-w-[92vw] sm:w-auto"
+          >
             <img
-              key={IMAGES[lightbox].src}
               src={IMAGES[lightbox].src}
               alt={IMAGES[lightbox].alt}
               decoding="async"
-              className="max-h-[85vh] w-auto animate-fade-in object-contain"
+              className="mx-auto max-h-[82vh] w-auto object-contain"
             />
             <figcaption className="mt-4 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-cream/60">
-              {lightbox + 1} / {IMAGES.length}
+              {IMAGES[lightbox].alt} · {lightbox + 1} / {IMAGES.length}
             </figcaption>
-          </figure>
+          </motion.figure>
         </div>
       )}
     </div>
